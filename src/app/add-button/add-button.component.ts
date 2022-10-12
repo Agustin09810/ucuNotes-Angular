@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddButtonComponent implements OnInit {
 
+  classTextAddButton: string = "btn btn-outline-dark me-3";
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  
 }

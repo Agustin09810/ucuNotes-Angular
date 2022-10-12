@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import {Note} from './Note';
 import { TemperatureService } from '../temperature.service';
 import { Observable, of } from 'rxjs';
+import { NotesService} from '../notes.service';
+import {AddEditModalComponent} from '../add-edit-modal/add-edit-modal.component';
 
 @Component({
   selector: 'app-cards',
@@ -11,8 +13,10 @@ import { Observable, of } from 'rxjs';
 export class CardsComponent implements OnInit {
   @Input() note? :Note;
   temperature? : String;
-  constructor(private tempService:TemperatureService) { 
-   }
+  constructor(
+    private tempService:TemperatureService,
+    private notesService: NotesService
+    ) { }
   
   async getTemperature(): Promise<string>{
     if (this.note)
@@ -28,5 +32,15 @@ export class CardsComponent implements OnInit {
   ngOnInit(): void {
     this.getTemperature();
   }
+
+  editarNota(id: Number){
+    this.notesService.editNote_ogText(id);
+  }
+
+  deleteNote_id(id: number){
+    this.notesService.deleteNote_id(id);
+  }
+
+  
 
 }

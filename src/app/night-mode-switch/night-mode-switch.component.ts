@@ -7,6 +7,8 @@ import { Component, OnInit} from '@angular/core';
 })
 export class NightModeSwitchComponent implements OnInit {
 
+  classText: string = "form-check form-switch position-fixed bottom-0 start-0";
+  
   constructor() { }
 
   ngOnInit(): void {

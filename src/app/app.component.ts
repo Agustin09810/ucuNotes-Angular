@@ -21,5 +21,5 @@ export class AppComponent {
   noteParent : Note[] = NOTES;
   title='ucuNotes';
 
-
+  
 }

@@ -1,60 +1,46 @@
 <!--- MODAL AGREGAR AND EDITAR -->
-<div class="modal fade" id={{id}} tabindex="-1" aria-labelledby="#modal-agregar-titulo" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div *ngIf="id === 'modal-agregar'; else editar"><h5 class="modal-title" id="{{id}}-titulo">Agregar nota</h5></div>
-                <ng-template #editar><h5 class="modal-title" id="{{id}}-titulo">Editar nota</h5></ng-template>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="container d-flex justify-content-center" >
-                    <div *ngIf="id === 'modal-agregar'; else textarea_editar"><textarea name="textoAgregar" id="textoAgregar" cols="30" rows="6" ></textarea></div>
-                     <ng-template #textarea_editar><textarea name="textoNota" id="textoNota" cols="30" rows="6" ></textarea></ng-template>                    
+    <div class="modal fade" id={{id}} tabindex="-1" aria-labelledby="#modal-agregar-titulo" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div *ngIf="id === 'modal-agregar'; else editar"><h5 class="modal-title" id="{{id}}-titulo">Agregar nota</h5></div>
+                    <ng-template #editar><h5 class="modal-title" id="{{id}}-titulo">Editar nota</h5></ng-template>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="container d-flex justify-content-center mt-3" >
-                    <div class="container d-flex justify-content-center">
-                        <label for="datePicker" class="me-3">Fecha:</label>
-                        <input id="datePicker" type="date" value="2022-08-29">
+                <div class="modal-body">
+                    <div class="container d-flex justify-content-center" >
+                        <div><textarea #textoAgregar name="textoAgregar" id="textoAgregar" cols="30" rows="6" >{{textEdit}}</textarea></div>                    
                     </div>
-                    <div class="container d-flex justify-content-center">
-                        <label for="timePicker" class="me-3">Hora:</label>
-
-                        <input type="time" id="timePicker" name="timePicker" value="18:15" required>
+                    <div class="container d-flex justify-content-center mt-3" >
+                        <div class="container d-flex justify-content-center">
+                            <label for="datePicker" class="me-3">Fecha:</label>
+                            <input #Fecha id="datePicker" type="date" value="2022-08-29">
+                        </div>
+                        <div class="container d-flex justify-content-center">
+                            <label for="timePicker" class="me-3">Hora:</label>
+                            <input #Tiempo type="time" id="timePicker" name="timePicker" value="18:15" required>
+                        </div>
                     </div>
-                </div>
-                <div *ngIf="id === 'modal-agregar'; else selectCiudad">
-                    <div class="container selectCiudad m-3">
-                        <select  class="form-control d-flex" id="CiudadAgregar" name="Ciudad">
-                            <option *ngFor="let city of ciudades" value="{{city}}">{{city}}</option>
-                        </select>
-                    </div>
-                </div>
-                    <ng-template #selectCiudad>
+                    <div>
                         <div class="container selectCiudad m-3">
-                            <select  class="form-control d-flex" id="CiudadEditar" name="Ciudad">
+                            <select #CiudadAdd class="form-control d-flex" id="CiudadAgregar" name="Ciudad">
                                 <option *ngFor="let city of ciudades" value="{{city}}">{{city}}</option>
                             </select>
                         </div>
-                        </ng-template>
-                
-                
-            </div>
-            
-                <div *ngIf="id === 'modal-agregar'; else button_editar">
-                    <div class="modal-footer d-flex justify-content-center">
-                        <button type="button" class="btn btn-secondary" id="agregarBtnInterior" data-bs-dismiss="modal">Agregar</button>
                     </div>
                 </div>
-                <ng-template #button_editar>
-                    <div class="modal-footer d-flex justify-content-center">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="editarNota_aux()">Editar</button>
+                    <div *ngIf="id === 'modal-agregar'; else button_editar">
+                        <div class="modal-footer d-flex justify-content-center">
+                            <button type="button" class="btn btn-secondary" id="agregarBtnInterior" data-bs-dismiss="modal" (click)="addNote(textoAgregar.value, CiudadAdd.value,
+                            Fecha.value, Tiempo.value)">Agregar</button>
+                        </div>
                     </div>
-                </ng-template>
-
-
-                
+                    <ng-template #button_editar>
+                        <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="editNote(textoAgregar.value, CiudadAdd.value,
+                        Fecha.value, Tiempo.value)">Editar</button>
+                        </div>
+                    </ng-template>
+                </div>
             </div>
         </div>
-    </div>
-

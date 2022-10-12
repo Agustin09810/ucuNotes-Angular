@@ -9,6 +9,8 @@ export class SupNavBarComponent implements OnInit {
 
   constructor() { }
 
+  classTextSupNav: string = "navbar navbar-expand-lg navbar-light bg-light";
+
   ngOnInit(): void {
   }
 
