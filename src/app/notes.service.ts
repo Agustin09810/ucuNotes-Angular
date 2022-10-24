@@ -2,6 +2,11 @@ import { Injectable } from '@angular/core';
 import { Note } from './cards/Note';
 import { NOTES } from './cards/Mock-notes';
 
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -9,7 +14,19 @@ export class NotesService {
 
   id:number = 1;
 
-  constructor() { }
+  private cardsUrl = 'api/cards';  // URL to web api
+
+  constructor(
+    private http: HttpClient
+  ) { }
+
+  getNotes(): Observable<Note[]> {
+    return this.http.get<Note[]>(this.cardsUrl); 
+  }
+
+  /* getNoteById(id: number): Observable<Note> {
+    
+  } */
 
   editNote_ogText(id: Number|undefined) :string{
     let note:Note|undefined= NOTES.find(element => element.id===id);
