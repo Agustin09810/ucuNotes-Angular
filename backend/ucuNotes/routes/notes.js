@@ -29,8 +29,8 @@ router.post('/', function(req, res, next) {
   note.temp = req.body.temp;
   note.date = req.body.date;
   id++;
-  notes[id] = note
-  res.status(200).send(notes[id]);
+  notes[id] = note;
+  res.status(200).send({id: id, note: notes[id]});
 });
 
 /* PUT note listing. */
@@ -43,7 +43,7 @@ router.put('/:noteid', function(req, res, next) {
     note.hour = req.body.hour;
     note.temp = req.body.temp;
     note.date = req.body.date;
-    notes[idNote] = note
+    notes[idNote] = note;
     res.status(200).send(notes[idNote])
 
   } else {
