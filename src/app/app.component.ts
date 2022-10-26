@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {Note} from './cards/Note';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NOTES } from './cards/Mock-notes'
+import { NotesService } from './notes.service';
 
 @Component({
   selector: 'app-root',
@@ -12,13 +13,20 @@ export class AppComponent {
 
   edit = "modal-editar"
 
-  constructor(private modalService: NgbModal) {
+  constructor(private modalService: NgbModal, private noteService : NotesService) {
+    this.getNotes()
+    
+  }
+
+  public getNotes(){
+    this.noteService.getNotes().subscribe(notes => this.noteParent = notes)
+    console.log(this.noteParent)
   }
 
   public open(modal: any): void {
     this.modalService.open(modal);
   }
-  noteParent : Note[] = NOTES;
+  noteParent? : Note[];
   title='ucuNotes';
 
   

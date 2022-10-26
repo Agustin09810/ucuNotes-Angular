@@ -34,8 +34,6 @@ import { InMemoryDataService } from './in-memory-data.service';
     AppRoutingModule,
     NgbModule,
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false })
   ],
   providers: [],
   bootstrap: [AppComponent]

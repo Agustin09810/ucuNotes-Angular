@@ -12,16 +12,21 @@ import { Observable, of } from 'rxjs';
 })
 export class NotesService {
 
-  id:number = 1;
+  id: number = 1;
 
-  private cardsUrl = 'api/cards';  // URL to web api
+  private cardsUrl = 'http://localhost:3000/api/v1/notes';  // URL to web api
+  private httpOptions  = {
+    headers: new HttpHeaders( {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:3000/api/v1/notes'})
+  }
 
   constructor(
     private http: HttpClient
   ) { }
 
+
+
   getNotes(): Observable<Note[]> {
-    return this.http.get<Note[]>(this.cardsUrl); 
+    return this.http.get<Note[]>(this.cardsUrl,this.httpOptions); 
   }
 
   /* getNoteById(id: number): Observable<Note> {
