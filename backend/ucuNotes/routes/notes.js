@@ -3,7 +3,7 @@ var router = express.Router();
 
 let id = 1;
 let notes = {
-  1: {text: "titulo", city_id: 1, date:"2022-10-24", hour:"20:00", temp:"18" }
+  1: {id: 1, text: "titulo", city_id: 1, date:"2022-10-24", time:"20:00", temp:"18" }
 }
 
 /* GET notes listing. */

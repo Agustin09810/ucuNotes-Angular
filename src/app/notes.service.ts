@@ -4,7 +4,6 @@ import { NOTES } from './cards/Mock-notes';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
@@ -13,20 +12,17 @@ import { Observable, of } from 'rxjs';
 export class NotesService {
 
   id: number = 1;
-
   private cardsUrl = 'http://localhost:3000/api/v1/notes';  // URL to web api
   private httpOptions  = {
-    headers: new HttpHeaders( {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:3000/api/v1/notes'})
+    headers: new HttpHeaders({'Content-Type': 'application/json'})
   }
 
   constructor(
     private http: HttpClient
   ) { }
 
-
-
   getNotes(): Observable<Note[]> {
-    return this.http.get<Note[]>(this.cardsUrl,this.httpOptions); 
+    return this.http.get<Note[]>(this.cardsUrl, this.httpOptions)
   }
 
   /* getNoteById(id: number): Observable<Note> {

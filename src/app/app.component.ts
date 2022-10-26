@@ -12,22 +12,24 @@ import { NotesService } from './notes.service';
 export class AppComponent {
 
   edit = "modal-editar"
+  noteParent? : Note[];
+  title='ucuNotes';
+  ngOnInit(): void {
+    this.getNotes();
+  }
 
   constructor(private modalService: NgbModal, private noteService : NotesService) {
-    this.getNotes()
-    
+    //this.getNotes()
   }
 
   public getNotes(){
-    this.noteService.getNotes().subscribe(notes => this.noteParent = notes)
-    console.log(this.noteParent)
+    this.noteService.getNotes().subscribe(notes => this.noteParent = Object.values(notes))
   }
 
   public open(modal: any): void {
     this.modalService.open(modal);
   }
-  noteParent? : Note[];
-  title='ucuNotes';
+  
 
   
 }
