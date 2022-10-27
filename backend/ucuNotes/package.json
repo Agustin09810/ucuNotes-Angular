@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
     "atlas": "^1.0.0-alpha.0",
@@ -15,6 +15,7 @@
     "http-errors": "~1.6.3",
     "mongodb": "^4.11.0",
     "morgan": "~1.9.1",
+    "nodemon": "^2.0.20",
     "pug": "2.0.0-beta11"
   }
 }

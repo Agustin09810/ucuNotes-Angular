@@ -15,7 +15,7 @@ module.exports = {
         return callback(err);
       }
 
-      dbConnection = db.db("Notas");
+      dbConnection = db.db("NoteDB");
       console.log("Successfully connected to MongoDB.");
       return callback();
     });

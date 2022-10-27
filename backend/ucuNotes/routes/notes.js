@@ -1,38 +1,40 @@
 var express = require('express');
-const { getDb, connectToServer } = require('../server/db/conn');
+const { ObjectId } = require('mongodb');
+const { getDb } = require('../server/db/conn');
 var router = express.Router();
 
-let id = 1;
-let notes = {
-  1: {id: 1, text: "titulo", city_id: 1, date:"2022-10-24", time:"20:00", temp:"18" }
-}
+let collection = "NoteCollection"
 
 
 /* GET notes listing. */
 router.get('/', async function(req, res, next) {
-  //res.json(notes)
-  
-  const dbConnect = getDb();
-
-  dbConnect
-    .collection("notes")
-    .find({}).limit(50)
+  dbo = getDb()
+  await dbo
+    .collection(collection)
+    .find({})
     .toArray(function (err, result) {
       if (err) {
         res.status(400).send("Error fetching notes!");
-     } else {
+    } else {
         res.json(result);
       }
     });
 });
 
 /* GET note listing. */
-router.get('/:noteid', function(req, res, next) {
-  if (req.params.noteid in notes ) {
-    res.status(200).send(notes[req.params.noteid])
-  } else {
-    res.status(404).send("Error in noteid")
-  }
+router.get('/:noteid', async function(req, res, next) {
+  
+  dbo = getDb()
+  const noteBD = 
+  await dbo
+    .collection(collection)
+    .findOne({ _id: ObjectId(req.params.noteid) })
+    if (noteBD !== null) {
+      res.status(200).send(noteBD)
+    } else {
+      res.status(404).send("Error in noteid")
+    }
+
 });
 
 /* POST note listing. */
