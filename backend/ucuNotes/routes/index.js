@@ -2,7 +2,7 @@ const { json } = require('express');
 var express = require('express');
 var router = express.Router();
 const app = express();
-const port = 3000;
+
 
 const apiRoute= "/api";
 const currentVersion = "/v1";
@@ -27,4 +27,3 @@ app.get(`${apiRoute}${currentVersion}/cities/:id`, (req,res) => {
 
 module.exports = router;
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));

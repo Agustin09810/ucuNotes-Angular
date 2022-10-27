@@ -1,4 +1,5 @@
 var express = require('express');
+const { getDb, connectToServer } = require('../server/db/conn');
 var router = express.Router();
 
 let id = 1;
@@ -6,9 +7,23 @@ let notes = {
   1: {id: 1, text: "titulo", city_id: 1, date:"2022-10-24", time:"20:00", temp:"18" }
 }
 
+
 /* GET notes listing. */
-router.get('/', function(req, res, next) {
-  res.json(notes)
+router.get('/', async function(req, res, next) {
+  //res.json(notes)
+  
+  const dbConnect = getDb();
+
+  dbConnect
+    .collection("notes")
+    .find({}).limit(50)
+    .toArray(function (err, result) {
+      if (err) {
+        res.status(400).send("Error fetching notes!");
+     } else {
+        res.json(result);
+      }
+    });
 });
 
 /* GET note listing. */
