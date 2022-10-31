@@ -16,10 +16,16 @@ export class DeleteModalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getNote();
+  }
+
+  getNote(){
+    this.notesService.actualNoteData.subscribe(note => this.note = note);
   }
 
   deleteNote(){
     if(this.note)
     this.notesService.deleteNote(this.note._id);
   }
+
 }
