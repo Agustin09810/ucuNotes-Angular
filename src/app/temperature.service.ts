@@ -34,7 +34,6 @@ export class TemperatureService {
         let lon: number = city.coord[1];
         const JSON = await this.getJSONFromFetch(lat,lon,date);
         const temp: number = this.getHourFromJSON(realHour ,JSON);
-        console.log(temp);
         return temp.toString();
     }
   }
