@@ -3,12 +3,17 @@ import { Note } from './cards/Note';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable} from 'rxjs';
+import { Observable, BehaviorSubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotesService {
+
+  private note: Note = { _id: "", text: "", city_id: "", date: "", hour: "", temp: "0" };
+
+  private actualNote = new BehaviorSubject<Note>(this.note);
+  actualNoteData = this.actualNote.asObservable();
 
   private cardsUrl = 'http://localhost:3000/api/v1/notes';  // URL to web api
   private httpOptions  = {
@@ -18,6 +23,10 @@ export class NotesService {
   constructor(
     private http: HttpClient
   ) { }
+
+  changeActualNote(note: Note){
+    this.actualNote.next(note);
+  }
 
   getNotes(): Observable<Note[]> {
     return this.http.get<Note[]>(this.cardsUrl, this.httpOptions);
@@ -29,7 +38,7 @@ export class NotesService {
   } 
 
   editNote(note : Note){
-    const url = `${this.cardsUrl}/${note.id}`;
+    const url = `${this.cardsUrl}/${note._id}`;
     return this.http.put<Note>(url, note, this.httpOptions);
   }
 

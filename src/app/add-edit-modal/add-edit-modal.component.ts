@@ -15,6 +15,7 @@ export class AddEditModalComponent implements OnInit {
   @Input() note? : Note;
   ciudades? : City[]
   textEdit: string = "";
+  
 
 
   @ViewChild('textoAgregar') editText!: ElementRef<HTMLTextAreaElement>;
@@ -26,9 +27,14 @@ export class AddEditModalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getCities()
+    this.getCities();
+    this.getNote();
   }
-  
+
+  getNote(){
+    this.notesService.actualNoteData.subscribe(note => this.note = note);
+  }
+
   getCities(){
     this.citiesService.getCities().subscribe(cities => this.ciudades = cities);
   }
@@ -49,12 +55,8 @@ export class AddEditModalComponent implements OnInit {
       this.note.temp = temp;
       this.notesService.editNote(this.note);
     }
-    
   }
 
-  // getOgText(){
-  //   this.textEdit = this.notesService.getOgText();
-  // }
 
   
 

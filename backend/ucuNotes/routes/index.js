@@ -10,6 +10,7 @@ let cities = {
   1: {name:"Montevideo", latitude: -34.9011, longitude: -56.1645},
   2: {name:"Lima",latitude:-12.0931,longitude:-77.0465},
   3: {name:"Santiago de Chile",latitude:-33.4691,longitude:-70.6420},
+  
 }
 /* GET home page. */
 router.get('/', function(req, res, next) {

@@ -1,7 +1,7 @@
 <div *ngIf="note">
     <div class="card mt-3">
         <div class="card-body" data-bs-toggle="modal" data-bs-target="#modal-editar"
-            (click) = "editarNota(note)">
+            (click) = "editarNota(note)" (click)="changeActualNote()">
             <p class="card-text">{{note.text}}</p>
         </div>
          <div *ngIf="city">

@@ -22,7 +22,6 @@ export class CardsComponent implements OnInit {
     private modalService : NgbModal
     ) { }
   
-
   getCity(){
     if(this.note)
     this.citiesService.getCityById(this.note?.city_id).subscribe(city => this.city = city.name)
@@ -48,5 +47,10 @@ export class CardsComponent implements OnInit {
   openModalEdit(){
     const modalRef = this.modalService.open(AddEditModalComponent);
     modalRef.componentInstance.note = this.note;
+  }
+
+  changeActualNote(){
+    if(this.note)
+    this.notesService.changeActualNote(this.note);
   }
 }
