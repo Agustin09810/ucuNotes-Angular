@@ -95,7 +95,7 @@ router.put('/:noteid', async function(req, res, next) {
   
 });
 
-/* PUT note listing. */
+/* DELETE note listing. */
 router.delete('/:noteid', async function(req, res, next) {
 
   const dbConnect = getDb();

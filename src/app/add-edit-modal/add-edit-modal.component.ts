@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, EventEmitter, Output} from '@angular/core';
-import { TemperatureService } from '../temperature.service';
-import { cities } from '../mockCities'
-import { NOTES } from '../cards/Mock-notes';
 import { NotesService } from '../notes.service';
-import {CardsComponent} from '../cards/cards.component';
+import { CitiesService } from '../cities.service';
+import { City } from '../City';
+import { Note } from '../cards/Note';
+import { TemperatureService } from '../temperature.service';
 
 @Component({
   selector: 'app-add-edit-modal',
@@ -12,7 +12,8 @@ import {CardsComponent} from '../cards/cards.component';
 })
 export class AddEditModalComponent implements OnInit {
   @Input() id : string = "modal-agregar";
-  ciudades : Array<string> = Object.keys(cities);
+  @Input() note? : Note;
+  ciudades? : City[]
   textEdit: string = "";
 
 
@@ -20,23 +21,40 @@ export class AddEditModalComponent implements OnInit {
 
   constructor(
     private notesService: NotesService,
+    private citiesService : CitiesService,
+    private tempService : TemperatureService
   ) { }
 
   ngOnInit(): void {
-
+    this.getCities()
+  }
+  
+  getCities(){
+    this.citiesService.getCities().subscribe(cities => this.ciudades = cities);
   }
 
-  addNote(content: string, city:string , date:string, time:string){
-    this.notesService.addNote(content, city, date, time);
+  async addNote(content: string, city:string , date:string, time:string){
+    let temp = await this.tempService.getTemp(time, date, city);
+    this.notesService.addNote(content, city, date, time, temp);
   }
 
-  editNote(content:string, city:string, date:string, time:string){
-    this.notesService.editNote_content(content, city, date, time);
+  async editNote(content:string, city:string, date:string, time:string){
+    if(this.note)
+    {
+      let temp = await this.tempService.getTemp(time, date, city);
+      this.note.text = content;
+      this.note.city_id = city;
+      this.note.date = date;
+      this.note.hour = time;
+      this.note.temp = temp;
+      this.notesService.editNote(this.note);
+    }
+    
   }
 
-  getOgText(){
-    this.textEdit = this.notesService.getOgText();
-  }
+  // getOgText(){
+  //   this.textEdit = this.notesService.getOgText();
+  // }
 
   
 

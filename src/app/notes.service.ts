@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Note } from './cards/Note';
-import { NOTES } from './cards/Mock-notes';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable, of } from 'rxjs';
+import { Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotesService {
 
-  id: number = 1;
   private cardsUrl = 'http://localhost:3000/api/v1/notes';  // URL to web api
   private httpOptions  = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -22,53 +20,33 @@ export class NotesService {
   ) { }
 
   getNotes(): Observable<Note[]> {
-    return this.http.get<Note[]>(this.cardsUrl, this.httpOptions)
+    return this.http.get<Note[]>(this.cardsUrl, this.httpOptions);
   }
 
-  /* getNoteById(id: number): Observable<Note> {
-    
-  } */
+  getNoteById(id: string): Observable<Note> {
+    const url = `${this.cardsUrl}/${id}`;
+    return this.http.get<Note>(url, this.httpOptions);
+  } 
 
-  editNote_ogText(id: Number|undefined) :string{
-    let note:Note|undefined= NOTES.find(element => element.id===id);
-    if(typeof(note) != 'undefined'){
-      let ogText = note.text;
-      this.id = note.id;
-      return ogText;
-    }else{
-      return 'undefined';
-    }
+  editNote(note : Note){
+    const url = `${this.cardsUrl}/${note.id}`;
+    return this.http.put<Note>(url, note, this.httpOptions);
   }
 
-  getOgText(){
-    return NOTES[this.id-1].text;
+  addNote(text: string, city_id: string, date: string, hour: string, temp : string) {
+    return this.http.post<Note>(this.cardsUrl, 
+      { text : text, 
+      city_id : city_id, 
+      date : date, 
+      hour : hour, 
+      temp: temp},
+      this.httpOptions);
   }
 
-  editNote_content(content:string, city:string, date:string, time:string){
-    NOTES[this.id-1].text = content;
-    NOTES[this.id-1].city = city;
-    NOTES[this.id-1].date = date;
-    NOTES[this.id-1].time = time;
-  }
-
-  addNote(content: string, city: string, date: string, time: string){
-    NOTES.push({id: NOTES.length+1, city: city, date: date, time: time, text: content});
-  }
-
-  deleteNote_id (id: number){
-    this.id = id;
-  }
   
-  deleteNote(){
-    let index = NOTES.findIndex(element => element.id===this.id);
-    if(index != -1){
-      NOTES.splice(index,1);
-    }
-    if(NOTES.length > 0){
-      NOTES.forEach(element => {
-        element.id = element.id-1;
-      });
-    }
+  deleteNote(id: string){
+    const url = `${this.cardsUrl}/${id}`;
+    return this.http.delete<Note>(url, this.httpOptions);
   }
 
   

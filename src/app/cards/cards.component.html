@@ -1,24 +1,24 @@
-<div *ngIf="note" id="col-'+nuevaID+'">
-    <div class="card mt-3" id="'+nuevaID+'">
-        <div class="card-body" id="cBody'+nuevaID+'" data-bs-toggle="modal" data-bs-target="#modal-editar"
-            (click) = "editarNota(note.id)">
-            <p class="card-text" id="cText'+nuevaID+'">{{note.text}}</p>
+<div *ngIf="note">
+    <div class="card mt-3">
+        <div class="card-body" data-bs-toggle="modal" data-bs-target="#modal-editar"
+            (click) = "editarNota(note)">
+            <p class="card-text">{{note.text}}</p>
         </div>
-         <div>
-            <label>Ciudad: {{note.city}} </label>
+         <div *ngIf="city">
+            <label>Ciudad: {{city}} </label>
         </div>
-        <div *ngIf="temperature">
-            <label>Temperatura: {{temperature}} °C</label>
+        <div>
+            <label>Temperatura: {{note.temp}} °C</label>
         </div>
         <div>
             <label>Fecha: {{note.date}}</label>
         </div>
         <div>
-            <label>Hora: {{note.time}}</label>
+            <label>Hora: {{note.hour}}</label>
         </div>
         <div class="card-footer">
             <div class="d-flex flex-row-reverse">
-                <img class="papelera" id="cFoot'+nuevaID+'" src="../../assets/trash.png" data-bs-toggle="modal" data-bs-target="#modalEliminar" (click)="deleteNote_id(note.id)"> 
+                <img class="papelera" src="../../assets/trash.png" (click)="openModalDelete()" > 
             </div>
         </div>
     </div>
