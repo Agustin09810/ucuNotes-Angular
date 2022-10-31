@@ -54,7 +54,6 @@ export class NotesService {
   
   deleteNote(id: string){
     const url = `${this.cardsUrl}/${id}`;
-    console.log(url);
     return this.http.delete(url, this.httpOptions);
   }
 
