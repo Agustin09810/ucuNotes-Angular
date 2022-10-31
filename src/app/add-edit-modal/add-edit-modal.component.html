@@ -7,9 +7,9 @@
                     <ng-template #editar><h5 class="modal-title" id="{{id}}-titulo">Editar nota</h5></ng-template>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div *ngIf="id === 'modal-agregar'; else modalEditar" class="modal-body">
                     <div class="container d-flex justify-content-center" >
-                        <div><textarea #textoAgregar name="textoAgregar" id="textoAgregar" cols="30" rows="6" >{{textEdit}}</textarea></div>                    
+                        <div><textarea #textoAgregar name="textoAgregar" id="textoAgregar" cols="30" rows="6" ></textarea></div>                    
                     </div>
                     <div class="container d-flex justify-content-center mt-3" >
                         <div class="container d-flex justify-content-center">
@@ -24,23 +24,42 @@
                     <div>
                         <div class="container selectCiudad m-3">
                             <select #CiudadAdd class="form-control d-flex" id="CiudadAgregar" name="Ciudad">
-                                <option *ngFor="let city of ciudades" value="{{city}}">{{city}}</option>
+                                <option *ngFor="let city of ciudades" value="{{city._id}}">{{city.name}}</option>
                             </select>
                         </div>
                     </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-secondary" id="agregarBtnInterior" data-bs-dismiss="modal" (click)="addNote(textoAgregar.value, CiudadAdd.value,
+                        Fecha.value, Tiempo.value)">Agregar</button>
+                    </div>
                 </div>
-                    <div *ngIf="id === 'modal-agregar'; else button_editar">
-                        <div class="modal-footer d-flex justify-content-center">
-                            <button type="button" class="btn btn-secondary" id="agregarBtnInterior" data-bs-dismiss="modal" (click)="addNote(textoAgregar.value, CiudadAdd.value,
-                            Fecha.value, Tiempo.value)">Agregar</button>
+
+               <ng-template #modalEditar><div class="modal-body">
+                    <div class="container d-flex justify-content-center" >
+                        <div><textarea #textEditar name="textoAgregar" id="textoAgregar" cols="30" rows="6" >{{note?.text}}</textarea></div>                    
+                    </div>
+                    <div class="container d-flex justify-content-center mt-3" >
+                        <div class="container d-flex justify-content-center">
+                            <label for="datePicker" class="me-3">Fecha:</label>
+                            <input #FechaEditar id="datePicker" type="date" value="{{note?.date}}">
+                        </div>
+                        <div class="container d-flex justify-content-center">
+                            <label for="timePicker" class="me-3">Hora:</label>
+                            <input #TiempoEditar type="time" id="timePicker" name="timePicker" value="{{note?.hour}}" required>
                         </div>
                     </div>
-                    <ng-template #button_editar>
-                        <div class="modal-footer d-flex justify-content-center">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="editNote(textoAgregar.value, CiudadAdd.value,
-                        Fecha.value, Tiempo.value)">Editar</button>
+                    <div>
+                        <div class="container selectCiudad m-3">
+                            <select #CiudadEditar class="form-control d-flex" id="CiudadAgregar" name="Ciudad">
+                                <option *ngFor="let city of ciudades" value="{{city._id}}">{{city.name}}</option>
+                            </select>
                         </div>
-                    </ng-template>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="editNote(textEditar.value, CiudadEditar.value,
+                        FechaEditar.value, TiempoEditar.value)">Editar</button>
+                    </div>
+                </div></ng-template>            
                 </div>
             </div>
         </div>

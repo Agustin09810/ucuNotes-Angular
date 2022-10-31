@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
-import { cities} from './mockCities';
+import { CitiesService } from './cities.service';
+import { City } from './City';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TemperatureService {
 
-  constructor() { }
-  
+  constructor(private citiesService : CitiesService) { 
+  }
+
   async getJSONFromFetch(latitude: number | string,longitude: number | string, day: string)
   {
 	const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude='+latitude+'&longitude='+longitude+'&start_date='+day+'&end_date='+day+'&hourly=temperature_2m');
@@ -20,17 +23,17 @@ export class TemperatureService {
   }
 
   
-  async getTemp(hour: string, date: string, city: string){
-    if(!(city in cities)){
+  async getTemp(hour: string, date: string, id: string){
+    const city = await lastValueFrom(this.citiesService.getCityById(id));
+    if(!(city)){
         return "The specified city is not valid. Try again."; //TODO: throw correct HTTP error
     }
     else{
         let realHour: number = parseInt(hour);
-        let lat: number = cities[city][0];
-        let lon: number = cities[city][1];
+        let lat: number = city.coord[0];
+        let lon: number = city.coord[1];
         const JSON = await this.getJSONFromFetch(lat,lon,date);
         const temp: number = this.getHourFromJSON(realHour ,JSON);
-        console.log(temp);
         return temp.toString();
     }
   }

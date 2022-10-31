@@ -1,9 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {Note} from './Note';
+import { Note } from './Note';
 import { TemperatureService } from '../temperature.service';
-import { Observable, of } from 'rxjs';
 import { NotesService} from '../notes.service';
-import {AddEditModalComponent} from '../add-edit-modal/add-edit-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddEditModalComponent } from '../add-edit-modal/add-edit-modal.component';
+import { CitiesService } from '../cities.service';
+import { DeleteModalComponent } from '../delete-modal/delete-modal.component';
 
 @Component({
   selector: 'app-cards',
@@ -12,35 +14,43 @@ import {AddEditModalComponent} from '../add-edit-modal/add-edit-modal.component'
 })
 export class CardsComponent implements OnInit {
   @Input() note? :Note;
-  temperature? : String;
+  @Input() city? : string
   constructor(
     private tempService:TemperatureService,
-    private notesService: NotesService
+    private notesService: NotesService,
+    private citiesService : CitiesService,
+    private modalService : NgbModal
     ) { }
   
-  async getTemperature(): Promise<string>{
-    if (this.note)
-    {
-      this.temperature = await (this.tempService.getTemp(this.note?.time,this.note?.date,this.note?.city))
-      return "ok"
-    } 
-    else
-    {
-      return "error";
-    }
+  getCity(){
+    if(this.note)
+    this.citiesService.getCityById(this.note?.city_id).subscribe(city => this.city = city.name)
   }
-  ngOnInit(): void {
-    this.getTemperature();
-  }
-
-  editarNota(id: Number){
-    this.notesService.editNote_ogText(id);
-  }
-
-  deleteNote_id(id: number){
-    this.notesService.deleteNote_id(id);
-  }
-
   
+  ngOnInit(): void {
+    this.getCity();
+  }
 
+  editarNota(note : Note){
+    this.notesService.editNote(note);
+  }
+
+  deleteNote_id(id: string){
+    this.notesService.deleteNote(id);
+  }
+
+  openModalDelete(){
+    const modalRef = this.modalService.open(DeleteModalComponent);
+    modalRef.componentInstance.note = this.note;
+  }
+
+  openModalEdit(){
+    const modalRef = this.modalService.open(AddEditModalComponent);
+    modalRef.componentInstance.note = this.note;
+  }
+
+  changeActualNote(){
+    if(this.note)
+    this.notesService.changeActualNote(this.note);
+  }
 }

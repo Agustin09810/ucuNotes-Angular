@@ -13,8 +13,7 @@ import { AddEditModalComponent } from './add-edit-modal/add-edit-modal.component
 import { DeleteModalComponent } from './delete-modal/delete-modal.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from './in-memory-data.service';
+
 
 
 @NgModule({
@@ -34,10 +33,9 @@ import { InMemoryDataService } from './in-memory-data.service';
     AppRoutingModule,
     NgbModule,
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false })
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ DeleteModalComponent, AddEditModalComponent ]
 })
 export class AppModule { }
