@@ -16,7 +16,7 @@ router.get('/', async function(req, res, next) {
       if (err) {
         res.status(400).send("Error fetching notes!");
     } else {
-        res.json(result);
+        res.status(200).json(result);
       }
     });
 });

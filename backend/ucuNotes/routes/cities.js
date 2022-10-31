@@ -1,20 +1,34 @@
-var express = require('express');
+var express = require("express");
+const { getDb } = require("../server/db/conn");
 var router = express.Router();
 
-let cities = {
-    1: {name: "Uruguay", cood: [-34,-56]}
-}
+const collection = "CityCollection";
 
-router.get('/', function(req, res, next) {
-    res.json(cities)
+/* GET notes listing. */
+router.get("/", async function (req, res, next) {
+  dbo = getDb();
+  await dbo
+    .collection(collection)
+    .find({})
+    .toArray(function (err, result) {
+      if (err) {
+        res.status(400).send("Error fetching cities!");
+      } else {
+        res.status(200).json(result);
+      }
+    });
 });
 
-/* GET note listing. */
-router.get('/:cityid', function(req, res, next) {
-    if ( req.params.cityid in cities ) {
-        res.status(200).send(cities[req.params.cityid])
-    } else {
-        res.status(404).send("Error in cityid")
-}
+router.get("/:cityid", async function (req, res, next) {
+  dbo = getDb();
+  const noteBD = await dbo
+    .collection(collection)
+    .findOne({ _id: ObjectId(req.params.cityid) });
+  if (noteBD !== null) {
+    res.status(200).send(noteBD);
+  } else {
+    res.status(404).send("Error in cityid");
+  }
 });
+
 module.exports = router;
