@@ -24,7 +24,7 @@
                     <div>
                         <div class="container selectCiudad m-3">
                             <select #CiudadAdd class="form-control d-flex" id="CiudadAgregar" name="Ciudad">
-                                <option *ngFor="let city of ciudades" value="{{city.id}}">{{city.name}}</option>
+                                <option *ngFor="let city of ciudades" value="{{city._id}}">{{city.name}}</option>
                             </select>
                         </div>
                     </div>

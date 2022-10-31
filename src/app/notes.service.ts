@@ -29,7 +29,7 @@ export class NotesService {
   } 
 
   editNote(note : Note){
-    const url = `${this.cardsUrl}/${note.id}`;
+    const url = `${this.cardsUrl}/${note._id}`;
     return this.http.put<Note>(url, note, this.httpOptions);
   }
 

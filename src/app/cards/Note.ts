@@ -1,5 +1,5 @@
 export interface Note{
-id: string;
+_id: string;
 city_id: string;
 date: string;
 hour: string; 
