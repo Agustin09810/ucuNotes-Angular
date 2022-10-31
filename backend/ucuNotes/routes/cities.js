@@ -22,11 +22,11 @@ router.get("/", async function (req, res, next) {
 
 router.get("/:cityid", async function (req, res, next) {
   dbo = getDb();
-  const noteBD = await dbo
+  const cityDb = await dbo
     .collection(collection)
     .findOne({ _id: ObjectId(req.params.cityid) });
-  if (noteBD !== null) {
-    res.status(200).send(noteBD);
+  if (cityDb !== null) {
+    res.status(200).send(cityDb);
   } else {
     res.status(404).send("Error in cityid");
   }
