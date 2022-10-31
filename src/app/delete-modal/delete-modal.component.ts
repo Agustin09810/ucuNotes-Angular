@@ -25,7 +25,7 @@ export class DeleteModalComponent implements OnInit {
 
   deleteNote(){
     if(this.note)
-    this.notesService.deleteNote(this.note._id);
+    this.notesService.deleteNote(this.note._id).subscribe();
   }
 
 }

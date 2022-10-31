@@ -41,7 +41,7 @@ export class AddEditModalComponent implements OnInit {
 
   async addNote(content: string, city:string , date:string, time:string){
     let temp = await this.tempService.getTemp(time, date, city);
-    this.notesService.addNote(content, city, date, time, temp);
+    this.notesService.addNote(content, city, date, time, temp).subscribe();
   }
 
   async editNote(content:string, city:string, date:string, time:string){
@@ -53,7 +53,7 @@ export class AddEditModalComponent implements OnInit {
       this.note.date = date;
       this.note.hour = time;
       this.note.temp = temp;
-      this.notesService.editNote(this.note);
+      this.notesService.editNote(this.note).subscribe();
     }
   }
 

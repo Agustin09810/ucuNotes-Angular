@@ -97,7 +97,6 @@ router.put('/:noteid', async function(req, res, next) {
 
 /* DELETE note listing. */
 router.delete('/:noteid', async function(req, res, next) {
-  debugger;
   const dbConnect = getDb();
   const noteQuery = { _id: ObjectId(req.params.noteid)};
 
