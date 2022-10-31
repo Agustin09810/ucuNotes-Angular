@@ -34,40 +34,86 @@ router.get('/:noteid', async function(req, res, next) {
     } else {
       res.status(404).send("Error in noteid")
     }
-
 });
 
 /* POST note listing. */
-router.post('/', function(req, res, next) {
-  let note = {};
-  note.text = req.body.text;
-  note.city_id = req.body.city_id;
-  note.hour = req.body.hour;
-  note.temp = req.body.temp;
-  note.date = req.body.date;
-  id++;
-  notes[id] = note;
-  res.status(200).send({id: id, note: notes[id]});
+router.post('/', async function(req, res, next) {
+
+  const dbConnect = getDb();
+  const noteDocument = {
+    text: req.body.text,
+    city_id: req.body.city_id,
+    hour : req.body.hour,
+    temp : req.body.temp,
+    date : req.body.date
+  };
+
+  await dbConnect
+    .collection(collection)
+    .insertOne(noteDocument, function (err, result) {
+      if (err) {
+        res.status(400).send("Error inserting note!");
+      } else {
+        console.log(`Added a new note with id ${result.insertedId}`);
+        res.status(200).send({ id: result.insertedId } );
+      }
+    });
 });
 
 /* PUT note listing. */
-router.put('/:noteid', function(req, res, next) {
-  const idNote = req.params.noteid;
-  if (idNote in notes ) {
-    let note = {};
-    note.text = req.body.text;
-    note.city_id = req.body.city_id;
-    note.hour = req.body.hour;
-    note.temp = req.body.temp;
-    note.date = req.body.date;
-    notes[idNote] = note;
-    res.status(200).send(notes[idNote])
+router.put('/:noteid', async function(req, res, next) {
 
-  } else {
-    res.status(404).send("Error in noteid")
+  const dbConnect = getDb();
+  const noteQuery = { _id: ObjectId(req.params.noteid)};
+  var updates = {};
+  if (req.body.text) {
+    updates.text = req.body.text;
   }
+  if (req.body.date) {
+    updates.date = req.body.date;
+  }
+  if (req.body.city_id) {
+    updates.city_id = req.body.city_id;
+  }
+  if (req.body.hour) {
+    updates.hour = req.body.hour;
+  }
+  if (req.body.temp) {
+    updates.temp = req.body.temp;
+  }
+
+  await dbConnect
+    .collection(collection)
+    .updateOne(noteQuery, {$set: updates}, function (err, _result) {
+      if (err) {
+        res.status(400).send(`Error updating note with id ${noteQuery._id}!`);
+      } else {
+        console.log("1 document updated");
+        res.status(200).send(`Document note with id ${noteQuery._id} was updated!`);
+      }
+    });
   
 });
+
+/* PUT note listing. */
+router.delete('/:noteid', async function(req, res, next) {
+
+  const dbConnect = getDb();
+  const noteQuery = { _id: ObjectId(req.params.noteid)};
+
+  await dbConnect
+    .collection(collection)
+    .deleteOne(noteQuery, function (err, _result) {
+      if (err) {
+        res.status(400).send(`Error deleting note with id ${noteQuery._id}!`);
+      } else {
+        console.log("1 document deleted");
+        res.status(200).send(`Document note with id ${noteQuery._id} was deleted!`);
+      }
+    });
+  
+});
+
 
 
 
