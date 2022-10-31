@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { AppComponent } from '../app.component';
 import { Note } from '../cards/Note';
 import { NotesService } from '../notes.service';
 
@@ -12,7 +13,8 @@ export class DeleteModalComponent implements OnInit {
   @Input() public note? : Note;
 
   constructor(
-    private notesService: NotesService
+    private notesService: NotesService,
+    private ui: AppComponent
   ) { }
 
   ngOnInit(): void {
@@ -25,7 +27,7 @@ export class DeleteModalComponent implements OnInit {
 
   deleteNote(){
     if(this.note)
-    this.notesService.deleteNote(this.note._id).subscribe();
+    this.notesService.deleteNote(this.note._id).subscribe(() => this.ui.update());
   }
 
 }

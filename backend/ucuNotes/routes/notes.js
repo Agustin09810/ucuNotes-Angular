@@ -32,7 +32,7 @@ router.get('/:noteid', async function(req, res, next) {
     if (noteBD !== null) {
       res.status(200).send(noteBD)
     } else {
-      res.status(404).send("Error in noteid")
+      res.status(404).send({"error":"Error in noteid"})
     }
 });
 
@@ -54,8 +54,8 @@ router.post('/', async function(req, res, next) {
       if (err) {
         res.status(400).send("Error inserting note!");
       } else {
-        console.log(`Added a new note with id ${result.insertedId}`);
-        res.status(200).send({ id: result.insertedId } );
+        console.log("Added a new note with id "+result.insertedId);
+        res.status(200).send({ id: result.insertedId });
       }
     });
 });
@@ -86,10 +86,10 @@ router.put('/:noteid', async function(req, res, next) {
     .collection(collection)
     .updateOne(noteQuery, {$set: updates}, function (err, _result) {
       if (err) {
-        res.status(400).send(`Error updating note with id ${noteQuery._id}!`);
+        res.status(400).send({"error":"Error updating note with id "+noteQuery._id+"!"});
       } else {
         console.log("1 document updated");
-        res.status(200).send(`Document note with id ${noteQuery._id} was updated!`);
+        res.status(200).send({"success":"Document note with id "+noteQuery._id+"was updated!"});
       }
     });
   
@@ -104,10 +104,10 @@ router.delete('/:noteid', async function(req, res, next) {
     .collection(collection)
     .deleteOne(noteQuery, function (err, _result) {
       if (err) {
-        res.status(400).send(`Error deleting note with id ${noteQuery._id}!`);
+        res.status(400).send({"error":"Error deleting note with id "+noteQuery._id+"!"});
       } else {
         console.log("1 document deleted");
-        res.status(200).send(`Document note with id ${noteQuery._id} was deleted!`);
+        res.status(200).send({"success":"Document note with id "+noteQuery._id+"was deleted!"});
       }
     });
   

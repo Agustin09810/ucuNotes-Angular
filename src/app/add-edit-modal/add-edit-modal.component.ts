@@ -4,6 +4,7 @@ import { CitiesService } from '../cities.service';
 import { City } from '../City';
 import { Note } from '../cards/Note';
 import { TemperatureService } from '../temperature.service';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-add-edit-modal',
@@ -23,7 +24,8 @@ export class AddEditModalComponent implements OnInit {
   constructor(
     private notesService: NotesService,
     private citiesService : CitiesService,
-    private tempService : TemperatureService
+    private tempService : TemperatureService,
+    private ui : AppComponent
   ) { }
 
   ngOnInit(): void {
@@ -41,7 +43,7 @@ export class AddEditModalComponent implements OnInit {
 
   async addNote(content: string, city:string , date:string, time:string){
     let temp = await this.tempService.getTemp(time, date, city);
-    this.notesService.addNote(content, city, date, time, temp).subscribe();
+    this.notesService.addNote(content, city, date, time, temp).subscribe(() => this.ui.update());
   }
 
   async editNote(content:string, city:string, date:string, time:string){
@@ -53,7 +55,7 @@ export class AddEditModalComponent implements OnInit {
       this.note.date = date;
       this.note.hour = time;
       this.note.temp = temp;
-      this.notesService.editNote(this.note).subscribe();
+      this.notesService.editNote(this.note).subscribe(() => this.ui.update());
     }
   }
 
