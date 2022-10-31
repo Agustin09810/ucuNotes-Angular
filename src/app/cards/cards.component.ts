@@ -25,8 +25,8 @@ export class CardsComponent implements OnInit {
   getCity(){
     if(this.note)
     this.citiesService.getCityById(this.note?.city_id).subscribe(city => this.city = city.name)
-    console.log(this.city);
   }
+  
   ngOnInit(): void {
     this.getCity();
   }
